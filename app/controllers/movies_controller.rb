@@ -20,6 +20,12 @@ class MoviesController < ApplicationController
     else
       @movies = Movie.all
     end
+    
+    if params[:ratings] != nil
+      @filtered_ratings = params[:ratings].keys
+      @movies = Movie.with_ratings(@filtered_ratings)
+    end
+    @all_ratings = Movie.all_ratings
   end
 
   def new
