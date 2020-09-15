@@ -1,0 +1,2 @@
+Github URL: https://github.com/sngabha/rottenpotatoes-rails-intro 
+Heroku URL: http://blooming-crag-18469.herokuapp.com
