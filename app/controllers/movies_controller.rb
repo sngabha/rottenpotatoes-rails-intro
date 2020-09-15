@@ -12,20 +12,29 @@ class MoviesController < ApplicationController
 
   def index
     if params[:title_sort] == 'on'
-      @movies = Movie.all.order(:title)
-      @title_header = "hilite"
+      session[:movie_highlight] = "hilite"
+      session[:date_highlight] = ""
     elsif params[:date_sort] == 'on'
-      @movies = Movie.all.order(:release_date)
-      @release_date_header = "hilite"
-    else
-      @movies = Movie.all
+      session[:movie_highlight] = ""
+      session[:date_highlight] = "hilite"
     end
     
     if params[:ratings] != nil
       @filtered_ratings = params[:ratings].keys
+      session[:filtered_ratings] = @filtered_ratings
       @movies = Movie.with_ratings(@filtered_ratings)
+    elsif session[:filtered_ratings] != nil
+      @movies = Movie.with_ratings(session[:filtered_ratings])
+    else
+      @movies = Movie.all
     end
     @all_ratings = Movie.all_ratings
+    
+    if session[:movie_highlight] == "hilite"
+      @movies = @movies.order(:title)
+    elsif session[:date_highlight] == "hilite"
+      @movies = @movies.order(:release_date)
+    end
   end
 
   def new
